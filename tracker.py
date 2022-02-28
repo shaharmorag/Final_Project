@@ -1,33 +1,45 @@
 import cv2
+from image_diff import run_image_diff
 
-file = "ISSshort.mp4"
-capture = cv2.VideoCapture(file)
 
-tracker = cv2.TrackerCSRT_create()
-success, image = capture.read()
-
-bbox = cv2.selectROI("Tracking", image, False)
-tracker.init(image, bbox)
-
-def deawBox(image, bbox):
+def draw_box(image, bbox):
     x, y, w, h = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
-    cv2.rectangle(image, (x, y), ((x+w), (y+h)), (225, 0, 225), 3, 1)
+    cv2.rectangle(image, (x, y), ((x + w), (y + h)), (225, 0, 225), 3, 1)
 
 
-while True:
-    success, image = capture.read()
-    success, bbox = tracker.update(image)
-    print(bbox)
-    if success:
-        deawBox(image, bbox)
-    else:
-        pass
+def main():
+    file = "ISSshort.mp4"
+    capture = cv2.VideoCapture(file)
 
-    cv2.imshow("Tracking", image)
-    key = cv2.waitKey(1)
+    tracker = cv2.TrackerCSRT_create()
+    success, frame1 = capture.read()
+    success, frame2 = capture.read()
 
-    if key == 27:
-        break
+    x_target, y_target = run_image_diff(frame1, frame2-400)
+    # x_target, y_target = 502, 1009 ## boundry problems.
+    w_target = 20
+    h_target = 20
+    # bbox = cv2.selectROI("Tracking", frame2, False)
+    bbox = (int(x_target), int(y_target), w_target, h_target)
+    tracker.init(frame2, bbox)
 
-    if cv2.waitKey(1) & 0xff == ord('q'):
-        break
+    while True:
+        success, image = capture.read()
+        success, bbox = tracker.update(image)
+        # print(bbox)
+        if success:
+            draw_box(image, bbox)
+        else:
+            pass
+        cv2.imshow("Tracking", image)
+        key = cv2.waitKey(1)
+
+        if key == 27:
+            break
+
+        if cv2.waitKey(1) & 0xff == ord('q'):
+            break
+
+
+if __name__ == '__main__':
+    main()

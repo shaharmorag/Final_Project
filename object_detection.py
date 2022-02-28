@@ -6,9 +6,9 @@ class ObjectDetection:
     def __init__(self, weights_path="dnn_model/yolov4.weights", cfg_path="dnn_model/yolov4.cfg"):
         print("Loading Object Detection")
         print("Running opencv dnn with YOLOv4")
-        self.nmsThreshold = 0.4
-        self.confThreshold = 0.5
-        self.image_size = 608
+        self.nmsThreshold = 0.2 #0.4
+        self.confThreshold = 0.2 #0.5
+        self.image_size = 108 #608
 
         # Load Network
         net = cv2.dnn.readNet(weights_path, cfg_path)
