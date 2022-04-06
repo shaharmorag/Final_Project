@@ -1,5 +1,6 @@
 import cv2
 from image_diff import run_image_diff
+from lines import get_line
 
 
 def draw_box(image, bbox):
@@ -8,20 +9,27 @@ def draw_box(image, bbox):
 
 
 def main():
-    file = "ISSshort.mp4"
+    file = "19_29_32.avi"
     capture = cv2.VideoCapture(file)
 
     tracker = cv2.TrackerCSRT_create()
-    success, frame1 = capture.read()
-    success, frame2 = capture.read()
 
-    x_target, y_target = run_image_diff(frame1, frame2-400)
-    # x_target, y_target = 502, 1009 ## boundry problems.
-    w_target = 20
-    h_target = 20
+    ##### find diff in frames
+    # success, frame1 = capture.read()
+    # success, frame2 = capture.read()
+    # x_target, y_target = run_image_diff(frame1, frame2-400)
+    ## x_target, y_target = 502, 1009 ## boundry problems.
+    # w_target = 20
+    # h_target = 20
     # bbox = cv2.selectROI("Tracking", frame2, False)
-    bbox = (int(x_target), int(y_target), w_target, h_target)
-    tracker.init(frame2, bbox)
+    # bbox = (int(x_target), int(y_target), w_target, h_target)
+    # tracker.init(frame2, bbox)
+
+    success, frame1 = capture.read()
+    print(type(frame1))
+    a = get_line(frame1)
+    # bbox = cv2.selectROI("Tracking", frame1, False)
+
 
     while True:
         success, image = capture.read()

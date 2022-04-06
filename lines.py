@@ -24,21 +24,29 @@ def find_longest_line(lines):
 def get_line(image):
 
     # Read gray image
-    img = cv2.imread(image, 0)
+    image = cv2.imread(image, 0)
 
     # Create default parametrization LSD
     lsd = cv2.createLineSegmentDetector(0)
-
+    image = image.resize((image.shape))
     # Detect lines in the image
-    lines = lsd.detect(img)[0]  # Position 0 of the returned tuple are the detected lines
+    lines = lsd.detect(image[:][:])[0]  # Position 0 of the returned tuple are the detected lines
     print(lines)
     dominant_line_index = find_longest_line(lines)
+    x_coord = int(lines[dominant_line_index][0][0])
+    y_coord = int(lines[dominant_line_index][0][1])
+    w = int(abs(lines[dominant_line_index][0][0] - lines[dominant_line_index][0][2]))
+    h = int(abs(lines[dominant_line_index][0][1] - lines[dominant_line_index][0][3]))
 
     # Draw detected lines in the image
-    drawn_img = lsd.drawSegments(img, lines[dominant_line_index])
+    drawn_img = lsd.drawSegments(image, lines[dominant_line_index])
 
     # Show image
     cv2.imshow("LSD", drawn_img)
     cv2.waitKey(0)
 
-get_line("eye.jpeg")
+    # set size for the box
+    print(f"detection coordinates: {x_coord}, {y_coord}, {w}, {h}")
+    return(x_coord, y_coord, w, h)
+
+get_line("color_image.jpg")

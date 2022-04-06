@@ -55,7 +55,7 @@ def run_image_diff(img1, img2):
     score, diff, thresh = compare(imageA, imageB, grayA, grayB)
     # show_diff(imageA, imageB, diff, thresh)
     x, y = np.unravel_index(diff.argmin(), diff.shape)
-    print(x, y)
+    print(f"the indexes of the detection: {x}, {y}")
     return x, y
 
 
