@@ -28,9 +28,9 @@ def get_line(image):
 
     # Create default parametrization LSD
     lsd = cv2.createLineSegmentDetector(0)
-    image = image.resize((image.shape))
+    # image = image.resize((360, 360))
     # Detect lines in the image
-    lines = lsd.detect(image[:][:])[0]  # Position 0 of the returned tuple are the detected lines
+    lines = lsd.detect(image)[0]  # Position 0 of the returned tuple are the detected lines
     print(lines)
     dominant_line_index = find_longest_line(lines)
     x_coord = int(lines[dominant_line_index][0][0])
