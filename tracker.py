@@ -1,5 +1,5 @@
 import cv2
-from image_diff import run_image_diff
+# from image_diff import run_image_diff
 from lines import get_line
 
 
@@ -23,13 +23,13 @@ def main():
     # h_target = 20
     # bbox = cv2.selectROI("Tracking", frame2, False)
     # bbox = (int(x_target), int(y_target), w_target, h_target)
-    # tracker.init(frame2, bbox)
+
 
     success, frame1 = capture.read()
     print(type(frame1))
-    a = get_line(frame1)
-    # bbox = cv2.selectROI("Tracking", frame1, False)
-
+    #bbox = cv2.selectROI("Tracking", frame1, False)
+    bbox = get_line(frame1)
+    tracker.init(frame1, bbox)
 
     while True:
         success, image = capture.read()
