@@ -9,7 +9,7 @@ def draw_box(image, bbox):
 
 
 def main():
-    file = "bright_line_slow_tracking.mp4"
+    file = "vid_pale_line_1.mp4"
     capture = cv2.VideoCapture(file)
 
     tracker = cv2.TrackerCSRT_create()
@@ -32,9 +32,10 @@ def main():
     while True:
         success, image = capture.read()
         success, bbox = tracker.update(image)
-        # print(bbox)
+
         if success:
             draw_box(image, bbox)
+            print(bbox)
         else:
             pass
         cv2.imshow("Tracking", image)
