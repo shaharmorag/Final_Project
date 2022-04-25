@@ -27,7 +27,7 @@ def get_line(image2):
     ###image = cv2.imread(image, 0)
 
     # Create default parametrization LSD
-    lsd = cv2.createLineSegmentDetector(2, scale=None, log_eps=None, density_th = None, ang_th = None) # density_th[0,1]: 0 most sensitive, ang_th: bigger angle more curved lines,
+    lsd = cv2.createLineSegmentDetector(2, scale=None, log_eps=None, density_th=None, ang_th=None) # density_th[0,1]: 0 most sensitive, ang_th: bigger angle more curved lines,
 
     # Detect lines in the image
     image = list(image2)
@@ -51,13 +51,13 @@ def get_line(image2):
 
     # Draw detected lines in the image
     drawn_img = lsd.drawSegments(mat, lines[dominant_line_index])
-    #drawn_img = lsd.drawSegments(mat, lines[:])
+    # drawn_img = lsd.drawSegments(mat, lines[:])
 
     # Show image
     cv2.imshow("LSD", drawn_img)
     cv2.waitKey(0)
 
     print(f"detection coordinates: {x_coord}, {y_coord}, {w}, {h}\n")
-    return(x_coord, y_coord, w+5, h+5)
+    return(x_coord, y_coord, w+20, h+20)
 
 #get_line("large line.png")

@@ -5,3 +5,8 @@ x64/
 *.py
 bright_line_slow_tracking.mp4
 __pycache__/lines.cpython-39.pyc
+bright_line_slow_tracking2.mp4
+.idea/misc.xml
+.idea/python.iml
+__pycache__/lines.cpython-39.pyc
+*.xml
