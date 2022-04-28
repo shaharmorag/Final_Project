@@ -8,7 +8,7 @@ def draw_box(image, bbox):
     cv2.rectangle(image, (x, y), ((x + w), (y + h)), (225, 0, 225), 3, 1)
 
 
-def main():
+def tracking(scale, log_eps, density_th, ang_th):
     file = "bright_line_slow_tracking2.mp4"
     capture = cv2.VideoCapture(file)
 
@@ -26,7 +26,7 @@ def main():
 
     success, frame1 = capture.read()
     print(type(frame1))
-    bbox = get_line(frame1)
+    bbox = get_line(frame1, scale, log_eps, density_th, ang_th)
     tracker.init(frame1, bbox)
 
     while True:
@@ -48,5 +48,5 @@ def main():
             break
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

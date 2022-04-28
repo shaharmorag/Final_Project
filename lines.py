@@ -21,13 +21,13 @@ def find_longest_line(lines):
     print(f"the longest line index: {index}\n")
     return index
 
-def get_line(image2):
+def get_line(image2, scale, log_eps, density_th, ang_th):
 
     # Read gray image
     ###image = cv2.imread(image, 0)
 
     # Create default parametrization LSD
-    lsd = cv2.createLineSegmentDetector(2, scale=None, log_eps=None, density_th=None, ang_th=None) # density_th[0,1]: 0 most sensitive, ang_th: bigger angle more curved lines,
+    lsd = cv2.createLineSegmentDetector(2, scale=scale, log_eps=log_eps, density_th=density_th, ang_th=ang_th) # density_th[0,1]: 0 most sensitive, ang_th: bigger angle more curved lines,
 
     # Detect lines in the image
     image = list(image2)
