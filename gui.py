@@ -17,6 +17,7 @@ def my_button():
 
 def start():
     tracking(0.4, -100, 0.5, 30)
+    start_button.config(text=DISABLED)
 
 def azimuth(number):
     pass
