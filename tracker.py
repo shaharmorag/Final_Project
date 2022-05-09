@@ -2,6 +2,22 @@ import cv2
 # from image_diff import run_image_diff
 from lines import get_line
 from tkinter import *
+import pandas as pd
+import openpyxl
+import numpy as np
+
+
+def export(tracking_data):
+    # list1 = [10, 20, 30, 40]
+    # list2 = [40, 30, 20, 10]
+    col1 = "X"
+    col2 = "Y"
+    col3 = "W"
+    col4 = "H"
+    print("exporting to exel")
+    # data = pd.DataFrame({col1: list1, col2: list2})
+    # data = pd.DataFrame({col1: tracking_data})
+    # data.to_excel('sample_data.xlsx', sheet_name='sheet1', index=False)
 
 
 def draw_box(image, bbox):
@@ -29,12 +45,16 @@ def detection(scale, log_eps, density_th, ang_th):
     print(type(frame1))
     bbox = get_line(frame1, scale, log_eps, density_th, ang_th)
     tracker.init(frame1, bbox)
+    return capture, tracker
 
 
 def loop(capture, tracker):
+    tracking_data = np.zeros((500, 4))
+    index = 0
     while True:
         success, image = capture.read()
         success, bbox = tracker.update(image)
+        tracking_data[index] = bbox
 
         if success:
             draw_box(image, bbox)
@@ -45,19 +65,23 @@ def loop(capture, tracker):
         key = cv2.waitKey(1)
 
         if key == 27:
+            export(tracking_data)
             break
 
         if cv2.waitKey(1) & 0xff == ord('q'):
+            export(tracking_data)
             break
+
+        index += 1
+
+
+
 
 
 top = Tk()
 top.title("Tracking Control")
 top.geometry("270x280")
 top['bg'] = '#0fadff'
-# my_label = Label(top, text="satellite").pack()
-# my_label.pack()
-# my_label.grid(row=0, columm=0)
 
 
 def my_button():
@@ -67,9 +91,9 @@ def my_button():
 
 def start():
 
-    # start_button.config(state=DISABLED)
-    # detection(0.4, -100, 0.5, 30)
-    detection(float(scale_input.get()), -100, float(density_input.get()), float(angle_input.get()))
+    start_button.config(state=DISABLED)
+    detection(0.4, -100, 0.5, 30)
+    # detection(float(scale_input.get()), -100, float(density_input.get()), float(angle_input.get()))
 
     print("hi there")
 
@@ -101,7 +125,15 @@ elevation_input = Entry(top, width=10).place(x=110, y=195)
 
 export_button = Button(top, text="Export Data", padx=20).place(x=50, y=230)
 
-top.mainloop()
+# top.mainloop()
 
-# if __name__ == '__main__':
-#     main()
+# export data to exel
+
+
+
+def main():
+    capture, tracker = detection(0.4, -100, 0.5, 30)
+    loop(capture, tracker)
+
+if __name__ == '__main__':
+    main()
